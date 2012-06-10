@@ -41,8 +41,12 @@ class Twitter implements \Zend_Auth_Adapter_Interface
 
     public static function getAuthorizationUrl()
     {
-        $options = Registry::get('config');
-        $consumer = new Consumer($options['twitter']);
+        $obj = Registry::get('config');
+        $options = array();
+        foreach ($obj->twitter as $key => $val) {
+            $options[$key] = $val;
+        }
+        $consumer = new Consumer($options);
         $token = $consumer->getRequestToken();
         $twitterToken = new SessionNamespace('twitterToken');
         $twitterToken->rt = serialize($token);
@@ -51,8 +55,12 @@ class Twitter implements \Zend_Auth_Adapter_Interface
 
     protected function _setOptions($options = null)
     {
-        $options = Registry::get('config');
-        $this->_options = $options['twitter'];
+        $obj = Registry::get('config');
+        $options = array();
+        foreach ($obj->twitter as $key => $val) {
+            $options[$key] = $val;
+        }
+        $this->_options = $options;
     }
 
     protected function _setRequestToken($params)

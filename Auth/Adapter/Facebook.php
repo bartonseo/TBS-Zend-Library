@@ -36,8 +36,12 @@ class Facebook implements \Zend_Auth_Adapter_Interface
 
     public static function getAuthorizationUrl()
     {
-        $options = Registry::get('config');
-        return Consumer::getAuthorizationUrl($options['facebook']);
+        $obj = Registry::get('config');
+        $options = array();
+        foreach ($obj->facebook as $key => $val) {
+            $options[$key] = $val;
+        }
+        return Consumer::getAuthorizationUrl($options);
     }
 
     protected function _setRequestToken($requestToken)
@@ -50,7 +54,7 @@ class Facebook implements \Zend_Auth_Adapter_Interface
         $accesstoken['timestamp'] = time();
         $this->_accessToken = $accesstoken;
     }
-    
+
     public function setAccessToken($token) {
         $accesstoken['timestamp'] = time();
         $accesstoken['access_token'] = $token;
