@@ -63,7 +63,11 @@ class Facebook implements \Zend_Auth_Adapter_Interface
 
     protected function _setOptions($options = null)
     {
-        $options = Registry::get('config');
-        $this->_options = $options['facebook'];
+        $obj = Registry::get('config');
+        $options = array();
+        foreach ($obj->facebook as $key => $val) {
+            $options[$key] = $val;
+        }
+        $this->_options = $options;
     }
 }
